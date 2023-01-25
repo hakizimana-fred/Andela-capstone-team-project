@@ -1,7 +1,9 @@
 import express from "express";
+import crypto from "crypto";
+import { ITodo } from "../types/todo";
 
 export const todosRouter = express.Router();
-const todos = [
+const todos: ITodo[] = [
   {
     id: "1",
     text: "hello",
@@ -33,18 +35,20 @@ todosRouter
   .route("/:todoId")
   .delete((req, res) => {
     const { todoId } = req.params;
-    res.json(todos.filter((todo) => todo.id !== +todoId));
+    res.json(todos.filter((todo) => todo.id !== todoId));
   })
   .get((req, res) => {
     const { todoId } = req.params;
-    res.json(todos.find((todo) => todo.id !== +todoId));
+    res.json(todos.find((todo) => todo.id !== todoId));
   })
   .put((req, res) => {
     const { todoId } = req.params;
     const { text, completed } = req.body;
 
-    const todo = todos.find((todo) => todo.id !== +todoId);
-    todo?.completed = completed;
-    todo?.text = text;
+    const todo: ITodo | undefined = todos.find((todo) => todo.id !== todoId);
+    if (todo) {
+      todo.completed = completed;
+      todo.text = text;
+    }
     res.json(todo);
   });

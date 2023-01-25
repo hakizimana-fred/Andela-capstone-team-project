@@ -9,8 +9,11 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const PORT = 3000 || process.env.PORT;
+
 app.use("/api/v1/todos", todosRouter);
+
 app.use("/api/auth/google", authRouter);
+
 app.use((req, res) => {
   res.status(404).send({
     message: "route not found",

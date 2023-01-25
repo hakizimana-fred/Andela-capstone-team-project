@@ -47,3 +47,8 @@ authRouter.get(
     failureRedirect: "/auth/google/failure",
   })
 );
+
+authRouter.get('/logout', (req, res)=>{
+    req.logout()
+    res.redirect('/')
+})

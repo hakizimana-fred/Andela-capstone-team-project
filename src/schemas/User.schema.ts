@@ -17,6 +17,23 @@ export const User = sequelize.define(
       type: Sequelize.STRING,
       allowNull: true,
     },
+    province: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    district: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    street: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    cell : {
+      type: Sequelize.STRING,
+      allowNull: true
+    }
+
   },
   {
     freezeTableName: true,

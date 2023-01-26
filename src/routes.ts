@@ -50,5 +50,18 @@ router.get('/auth/google', passport.authenticate('google', {
     scope: ['email', 'profile']
 }))
 
+router.patch('/update-profile/:id', async (req: Request, res: Response) => {
+    try {
+      const id = req.params.id
+      const user = await User.findByPk(id, { raw: true})
+      if (!user) return res.status(400).json({success: false, message: "no user found"})
+
+      const updates = await User.update(req.body, {where: {id}})
+      if (updates) return res.status(200).json({status: true, user})
+    }catch(err: any) {
+      console.log(err.message)
+    }
+})
+
 
 export default router;

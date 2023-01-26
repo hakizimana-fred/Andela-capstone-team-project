@@ -5,6 +5,7 @@ import routes from "./routes";
 import passport from "passport";
 import session from "express-session";
 import { authentication_strategies } from "./config/passport";
+import { omit } from 'lodash'
 
 const app = express();
 
@@ -45,7 +46,9 @@ const main = async () => {
         session: false,
       }),
       function (req, res) {
-        return res.send(req.user)
+        const user: any = req.user
+        const response = omit(user.toJSON(), 'password')
+        return res.send(response)
       }
     );
 

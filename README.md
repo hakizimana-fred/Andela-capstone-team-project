@@ -1,17 +1,17 @@
-Simple Backend App
+# Simple Backend App 
 
 This project is a simple backend app that includes three APIs for user authentication and profile update. The app is built using Typescript, express server, and a Postgres database with the help of the Sequelize ORM.
-Stack
+### Stack
     • Typescript
     • Express server
     • Postgres database
     • Sequelize ORM
 
-   TEAM
+ ###  TEAM
 
-The team working on this project includes HAKIZIMZNA Fred, IYADUKUNZE Emile  and UWITONDANISHEMA Muslim. Team lead is Fred.
+The team working on this project includes ***HAKIZIMZNA Fred, IYADUKUNZE Emile  and UWITONDANISHEMA Muslim***. Team lead is Fred.
 
-STORIES
+### STORIES
 
     1. Set up Typescript and eslint
     2. Set up an express project and set it up to use Sequelize and PostgresSQL database
@@ -19,12 +19,14 @@ STORIES
     4. User should be able to use Google to authenticate, using Passport.js
     5. User should be able to update their profile by adding a billing address (Json data: Province, District, Street, cell)
 Collaboration
-Team leads will set up the repo which will be used for the collaboration. Everyone  worked one story.
-API Endpoints
+Everyone  worked one story.
+
+### API Endpoints
     1. Login/Signup - Allows users to login or signup with their email and password.
     2. Google Auth - Allows users to authenticate using their Google account.
     3. Profile Update - Allows users to update their profile by adding a billing address.
-Getting Started
+    
+### Getting Started
 To get started with this project, you will need to clone the repository, install the necessary dependencies, and set up the database.
     1. Clone the repository
     2. Run npm install to install the necessary dependencies

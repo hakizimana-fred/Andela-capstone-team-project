@@ -1,23 +1,25 @@
-import Sequelize from "sequelize"
-import { sequelize } from "../config/db"
+import Sequelize from "sequelize";
+import { sequelize } from "../config/db";
 
-export const User = sequelize.define("user", {
-    //  id: {
-    //         type: Sequelize.UUID,
-    //         defaultValue: Sequelize.UUIDV4,
-    //         primaryKey: true,
-    // },
+export const User = sequelize.define(
+  "user",
+  {
     email: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
     },
     password: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+    },
+    googleID: {
+      type: Sequelize.STRING,
+      allowNull: true,
     },
   },
   {
     freezeTableName: true,
-    tableName: 'users',
-  });
+    tableName: "users",
+  }
+);

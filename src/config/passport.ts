@@ -14,7 +14,7 @@ export const authentication_strategies = {
         {
           clientID: process.env.GOOGLE_CLIENT_ID as string,
           clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-          callbackURL: `${process.env.DOMAIN}/auth/google/callback`,
+          callbackURL: `/auth/google/callback`,
           passReqToCallback: true,
         },
 
@@ -25,7 +25,22 @@ export const authentication_strategies = {
           profile: any,
           done: Function
         ) {
-          console.log(profile, "for now");
+        
+          //console.log(profile, "for now");
+          try {
+
+          const user = await User.findOne({where: {googleID: profile.id}})
+          if (!user) {
+            const newUser = {
+                email: profile.email,
+                googleID: profile.id,
+            }
+            const googleUser = await User.create(newUser)
+            done(null, googleUser)
+          }else {
+            done(null, user)
+          }
+          }catch(err) {console.log(err)}
         }
       )
     );
@@ -38,7 +53,7 @@ export const authentication_strategies = {
             const user: any = await User.findOne({where: {email}})
             const isValidPassword = await bcrypt.compare(password, user.password)
             if(!user) return done(null, false)
-            if (!isValidPassword) return done(null, false)
+            if (!isValidPassword) return done(null, false, {message: "Invalid credentials"})
             return done(null, user)
        }
       )

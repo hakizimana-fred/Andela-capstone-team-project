@@ -34,10 +34,16 @@ router.post("/signup", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/login", (req, res, next) => {
-  passport.authenticate("local", {
-    failureRedirect: "/",
-  })(req, res, next);
-});
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', {
+      failureRedirect: '/api/user/login'
+    })(req, res, next);
+  })
+
+
+router.get('/auth/google', passport.authenticate('google', {
+    scope: ['email', 'profile']
+}))
+
 
 export default router;

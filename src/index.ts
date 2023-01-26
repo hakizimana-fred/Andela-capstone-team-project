@@ -23,7 +23,9 @@ const main = async () => {
     // connect to database
     await dbConnection();
     // middlewares
-    app.use(express.json());
+    app.use(express.json())
+    app.use(express.urlencoded({ extended: true }))
+    
     app.use(
       session({
         secret: "secret",
@@ -31,22 +33,29 @@ const main = async () => {
         saveUninitialized: true,
       })
     );
-  
-
-
     app.use(passport.initialize());
     app.use(passport.session());
 
     // routes
     app.use("/api/user", routes);
+    app.get(
+      '/auth/google/callback',
+      passport.authenticate('google', {
+        failureRedirect: '/api/v1/failed',
+        session: false,
+      }),
+      function (req, res) {
+        return res.send(req.user)
+      }
+    );
 
     // Not found error
-    app.use((req, res) => {
-      res.status(404).send({
-        message: "route not found",
-        status: "resource not found",
-      });
-    });
+    // app.use((req, res) => {
+    //   res.status(404).send({
+    //     message: "route not found",
+    //     status: "resource not found",
+    //   });
+    // });
 
     app.listen(PORT, () => console.log(`server listening on ${PORT}`));
   } catch (err) {

@@ -11,7 +11,7 @@ export const User = sequelize.define(
     },
     password: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     googleID: {
       type: Sequelize.STRING,
@@ -21,5 +21,18 @@ export const User = sequelize.define(
   {
     freezeTableName: true,
     tableName: "users",
+    hooks: {
+        beforeCreate: (user: any, options: any) => {
+            if (user.googleID) {
+                user.password = 'google'
+            }
+        },
+        beforeUpdate: (user: any, options: any) => {
+            if (user.googleID) {
+                user.password = 'google'
+            }
+        }
+    }
   }
 );
+

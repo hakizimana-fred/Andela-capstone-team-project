@@ -1,7 +1,8 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { User } from "./schemas/User.schema";
 import bcrypt from "bcryptjs";
 import passport from "passport";
+import { omit } from 'lodash'
 
 const router = Router();
 
@@ -28,18 +29,22 @@ router.post("/signup", async (req: Request, res: Response) => {
       password: hash,
     };
     const savedUser = await User.create(newUser);
-    return res.status(201).json({ success: true, user: savedUser });
+    const response = omit(savedUser.toJSON(), 'password')
+    return res.status(201).json({ success: true, user: response });
   } catch (err: any) {
     console.log(err.message);
   }
 });
 
-router.post('/login', (req, res, next) => {
-    passport.authenticate('local', {
-      failureRedirect: '/api/user/login'
-    })(req, res, next);
-  })
 
+router.post('/login', function(req: Request, res: Response, next: NextFunction) {
+    passport.authenticate('local', function(err: any, user: any) {
+        if (err)
+            return next(err);
+        const response = omit(user.toJSON(), 'password')
+        res.status(200).json({success: true, user: response})
+    })(req, res, next);
+});
 
 router.get('/auth/google', passport.authenticate('google', {
     scope: ['email', 'profile']

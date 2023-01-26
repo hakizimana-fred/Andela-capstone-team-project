@@ -26,7 +26,6 @@ export const authentication_strategies = {
           done: Function
         ) {
         
-          //console.log(profile, "for now");
           try {
 
           const user = await User.findOne({where: {googleID: profile.id}})

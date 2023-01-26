@@ -50,12 +50,12 @@ const main = async () => {
     );
 
     // Not found error
-    // app.use((req, res) => {
-    //   res.status(404).send({
-    //     message: "route not found",
-    //     status: "resource not found",
-    //   });
-    // });
+    app.use((req, res) => {
+      res.status(404).send({
+        message: "route not found",
+        status: "resource not found",
+      });
+    });
 
     app.listen(PORT, () => console.log(`server listening on ${PORT}`));
   } catch (err) {
@@ -63,4 +63,5 @@ const main = async () => {
   }
 };
 
-main();
+main()
+  .catch(err => console.log(err))

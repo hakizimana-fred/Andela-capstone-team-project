@@ -1,7 +1,9 @@
 import express from "express";
 import { config } from "dotenv";
-import { todosRouter } from "./controllers/todosRouter";
-import { authRouter } from "./controllers/authMiddleware";
+import { dbConnection } from "./config/db";
+//import { todosRouter } from "./controllers/todosRouter";
+//import { authRouter } from "./controllers/authMiddleware";
+
 const app = express();
 
 if (process.env.NODE_ENV !== "production") {
@@ -10,9 +12,12 @@ if (process.env.NODE_ENV !== "production") {
 
 const PORT = 3000 || process.env.PORT;
 
-app.use("/api/v1/todos", todosRouter);
+const main = async ()  => {
+try {
+// app.use("/api/v1/todos", todosRouter);
 
-app.use("/api/auth/google", authRouter);
+// app.use("/api/auth/google", authRouter);
+await dbConnection()
 
 app.use((req, res) => {
   res.status(404).send({
@@ -22,3 +27,8 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => console.log(`server listening on ${PORT}`));
+}catch(err) {process.exit(1)}
+}
+
+main()
+

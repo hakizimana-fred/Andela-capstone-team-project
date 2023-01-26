@@ -1,14 +1,33 @@
-import { Application, Request, Response, Router  } from "express";
+import {  Request, Response, Router  } from "express";
+import { User } from "./schemas/User.schema";
+import bcrypt from 'bcryptjs'
 
 const router = Router()
 
-router.post('/api/user/signup', (req: Request, res: Response) => {
+router.get('/healthcheck', (req, res) => res.send('hi there'))
+
+router.post('/signup', async (req: Request, res: Response) => {
     try {
         const { email, password} = req.body
-        
-    }catch(err) {
+        if (!email || !password) return res.status(400).json({success: false, message: "All fields required"})
+        // check if user exists
+            const userExists = await User.findOne({where: {email}});
+            if (userExists) return res.status(400).json({success: false, message: "User already exists"})
+        // register user
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+        const newUser = {
+            email, 
+            password: hash
+        }
+        const savedUser = await User.create(newUser)
+        return res.status(201).json({success: true, user: savedUser})
+
+    }catch(err: any) {
         console.log(err.message)
     }
 
 
 })
+
+export default router

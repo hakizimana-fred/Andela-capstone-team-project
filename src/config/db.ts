@@ -1,6 +1,6 @@
 import {  Sequelize } from 'sequelize'
 
-const sequelize = new Sequelize('todos', 'postgres', '123456', {
+export const sequelize = new Sequelize('todos', 'postgres', '123456', {
   host: 'localhost',
   dialect: 'postgres'
 });
@@ -13,3 +13,9 @@ export const dbConnection = async () => {
     console.error('Unable to connect to the database:', error);
 }
 }
+
+sequelize.sync().then(() => {
+  console.log('Tables created');
+}).catch(err => {
+  console.log('An error occurred: ', err);
+});

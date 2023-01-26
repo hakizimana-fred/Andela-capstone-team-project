@@ -12,17 +12,16 @@ if (process.env.NODE_ENV !== "production") {
   config();
 }
 
-const PORT = 3000 || process.env.PORT;
 
+// authentication strategies
+authentication_strategies.googleStrategy()
+authentication_strategies.localStrategy()
+
+const PORT = 3000 || process.env.PORT;
 const main = async () => {
   try {
     // connect to database
     await dbConnection();
-
-    // authentication strategies
-    authentication_strategies.googleStrategy()
-    authentication_strategies.localStrategy()
-
     // middlewares
     app.use(express.json());
     app.use(
@@ -33,12 +32,14 @@ const main = async () => {
       })
     );
   
+
+
     app.use(passport.initialize());
     app.use(passport.session());
 
     // routes
     app.use("/api/user", routes);
-    
+
     // Not found error
     app.use((req, res) => {
       res.status(404).send({

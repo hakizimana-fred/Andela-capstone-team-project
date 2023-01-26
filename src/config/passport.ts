@@ -23,7 +23,7 @@ export const authentication_strategies = {
           accessToken: any,
           refreshToken: any,
           profile: any,
-          done: any
+          done: Function
         ) {
           console.log(profile, "for now");
         }
@@ -35,12 +35,12 @@ export const authentication_strategies = {
       new LocalStrategy(
         { usernameField: "email", passwordField: "password" },
         async (email: string, password: string, done: Function) => {
-          const user = await User.findOne({ where: { email } });
-          if (!user) return done(null, false);
-          const validPassword = await bcrypt.compare(password, user.password);
-          if (!validPassword) return done(null, false);
-          return done(null, user);
-        }
+            const user: any = await User.findOne({where: {email}})
+            const isValidPassword = await bcrypt.compare(password, user.password)
+            if(!user) return done(null, false)
+            if (!isValidPassword) return done(null, false)
+            return done(null, user)
+       }
       )
     );
   },

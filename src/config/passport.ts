@@ -32,8 +32,10 @@ export const authentication_strategies = {
           if (!user) {
             const newUser = {
                 email: profile.email,
+                password: 'google',
                 googleID: profile.id,
             }
+
             const googleUser = await User.create(newUser)
             done(null, googleUser)
           }else {

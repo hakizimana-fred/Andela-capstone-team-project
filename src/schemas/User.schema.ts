@@ -11,7 +11,7 @@ export const User = sequelize.define(
     },
     password: {
       type: Sequelize.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     googleID: {
       type: Sequelize.STRING,

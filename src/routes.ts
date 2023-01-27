@@ -57,7 +57,8 @@ router.patch('/update-profile/:id', async (req: Request, res: Response) => {
       if (!user) return res.status(400).json({success: false, message: "no user found"})
 
       const updates = await User.update(req.body, {where: {id}})
-      if (updates) return res.status(200).json({status: true, user})
+      const response = omit(user.toJSON(), 'password')
+      if (updates) return res.status(200).json({status: true, response})
     }catch(err: any) {
       console.log(err.message)
     }

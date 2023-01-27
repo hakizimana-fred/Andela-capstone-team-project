@@ -53,7 +53,7 @@ router.get(
     scope: ['email', 'profile'],
   })
 );
-
+// updated for user profile
 router.patch('/update-profile/:id', async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
